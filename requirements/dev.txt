@@ -1,0 +1,5 @@
+# requirements/dev.txt
+-r common.txt
+distribute==0.6.35
+nose==1.2.1
+virtualenv==1.9.1

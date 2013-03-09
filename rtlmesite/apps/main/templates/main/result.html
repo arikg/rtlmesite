@@ -1,0 +1,38 @@
+{% extends "main/base.html" %}
+{% load url from future %}
+
+{% block content %}
+    <div id="wrapper">
+        <a href="{% url 'main:index' %}"><h1 class="logo">RTLme</h1></a>
+        {% if result %}
+            <div class="main">
+                <div class="row">
+                    <textarea class="text-area" id="input">{{ result.input_text }}</textarea>
+                </div>
+                <div class="row">
+                    <textarea class="text-area text-area-big" id="output">{{ result.output_text }}</textarea>
+                </div>
+            </div>
+            <p class="rate-title">Please rate the result you got...</p>
+            <form class="main" action="{% url 'main:feedback' result.pk %}" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div id="star"></div>
+                </div>
+                <div class="row">
+                    <textarea class="text-area text-area-small" id="rate-text" name="rate-text"
+                              placeholder="Any feedback about the RTL result?"></textarea>
+                </div>
+                <div class="row submit">
+                    <input type="submit" name="submit" class="btn btn-primary" value="Rate">
+                </div>
+            </form>
+        {% else %}
+            <div class="main">
+                <div class="row">
+                    <p>No RTL result found</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

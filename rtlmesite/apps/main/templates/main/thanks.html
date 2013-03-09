@@ -1,0 +1,17 @@
+{% extends "main/base.html" %}
+{% load url from future %}
+
+{% block content %}
+    <div id="wrapper">
+        <a href="{% url 'main:index' %}"><h1 class="logo">RTLme</h1></a>
+
+        <div class="main">
+            <div class="row">
+                <p>
+                    Thank you for your feedback!<br/>
+                    We look forward to serving you again
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
