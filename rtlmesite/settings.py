@@ -1,11 +1,27 @@
 # Django settings for rtlmesite project.
 
-import os.path
+import os
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+try:
+    RUN_ENV = os.environ['RUN_ENV']
+except KeyError:
+    RUN_ENV = 'dev'
+
+
+if RUN_ENV == "heroku":
+    DB_ENGINE = os.environ['DB_ENGINE']
+    DB_NAME = os.environ['DB_NAME']
+    DB_USER = os.environ['DB_USER']
+    DB_PASSWORD = os.environ['DB_PASSWORD']
+elif RUN_ENV == "dev":
+    DB_ENGINE = 'django.db.backends.sqlite3'
+    DB_NAME = os.path.join(PROJECT_PATH,'sqlite3.db')
+    DB_USER = ''
+    DB_PASSWORD = ''
+    DEBUG = True
+    TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -13,11 +29,10 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-# TODO arikg: dev only setting
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'C:/devl/work/GitHub/rtlmesite/sqlite3.db', # Or path to database file if using sqlite3.
+        'ENGINE': DB_ENGINE,             # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': DB_NAME,                 # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -65,8 +80,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-# TODO arikg: dev only setting
-STATIC_ROOT = 'C:/devl/work/GitHub/rtlmesite/rtlmesite/apps/main/static/'
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'staticfiles/')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -116,7 +130,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    PROJECT_PATH + "/templates/"
+    os.path.join(PROJECT_PATH, "templates/")
 )
 
 INSTALLED_APPS = (
