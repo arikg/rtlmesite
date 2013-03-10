@@ -1,6 +1,7 @@
 # Django settings for rtlmesite project.
 
 import os
+import dj_database_url
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
@@ -11,34 +12,28 @@ except KeyError:
 
 
 if RUN_ENV == "heroku":
-    DB_ENGINE = os.environ['DB_ENGINE']
-    DB_NAME = os.environ['DB_NAME']
-    DB_USER = os.environ['DB_USER']
-    DB_PASSWORD = os.environ['DB_PASSWORD']
+    DATABASES = {'default': dj_database_url.config()}
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 elif RUN_ENV == "dev":
-    DB_ENGINE = 'django.db.backends.sqlite3'
-    DB_NAME = os.path.join(PROJECT_PATH,'sqlite3.db')
-    DB_USER = ''
-    DB_PASSWORD = ''
     DEBUG = True
     TEMPLATE_DEBUG = DEBUG
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': os.path.join(PROJECT_PATH,'sqlite3.db'), # Or path to database file if using sqlite3.
+            'USER': '',                      # Not used with sqlite3.
+            'PASSWORD': '',                  # Not used with sqlite3.
+            'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        }
+    }
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
-
-DATABASES = {
-    'default': {
-        'ENGINE': DB_ENGINE,             # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': DB_NAME,                 # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
