@@ -1,10 +1,12 @@
 from django.conf.urls import patterns, url
-from django.views.generic import DetailView
+from django.views.generic import DetailView, RedirectView
 from models import Result
 
 import views
 
 urlpatterns = patterns('',
+                       # ex: /favicon.ico
+                       url(r'^favicon\.ico$', RedirectView.as_view(url='/static/images/favicon.ico')),
                        # ex: /
                        url(r'^$', views.index, name='index'),
                        # ex: /result/5/feedback
