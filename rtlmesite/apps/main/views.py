@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
+from django.template import RequestContext
 from rtlmesite.libs.rtlparse.rtlparse import CSSRtlParser
 from models import Result, Feedback
 
@@ -43,3 +44,11 @@ def feedback(request, result_id):
 
 def thanks(request):
     return render(request, "main/thanks.html")
+
+def server_error(request, template_name='500.html'):
+    """
+    500 error handler.
+    """
+    return render_to_response(template_name,
+                              context_instance = RequestContext(request)
+    )

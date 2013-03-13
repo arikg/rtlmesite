@@ -1,8 +1,10 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, handler500
 from django.views.generic import DetailView
 from models import Result
 
 import views
+
+handler500 = 'views.server_error'
 
 urlpatterns = patterns('',
                        # ex: /
