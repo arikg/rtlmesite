@@ -19,4 +19,6 @@ urlpatterns = patterns('',
                        url(r'^rtl/$', views.rtl, name='rtl'),
                        # ex: /thanks
                        url(r'^thanks$', views.thanks, name='thanks'),
+                       url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to',
+                           {'url': '/static/images/favicon.ico'})
 )
