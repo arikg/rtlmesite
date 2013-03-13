@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic import RedirectView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -12,6 +13,8 @@ v1_api = Api(api_name='v1')
 v1_api.register(ResultResource())
 
 urlpatterns = patterns('',
+                       # ex: /favicon.ico
+                       url(r'^favicon\.ico$', RedirectView.as_view(url='/static/images/favicon.ico')),
                        # Examples:
                        # url(r'^$', 'rtlmesite.views.home', name='home'),
                        # url(r'^rtlmesite/', include('rtlmesite.foo.urls')),
